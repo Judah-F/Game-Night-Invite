@@ -11,7 +11,5 @@ if not webhook_url:
     print("Error: DISCORD_WEBHOOK environment variable not found!")
 else:
     print("Webhook found. Ready to send message.")
-    # Your logic to send the message goes here...
-
 webhook = DiscordWebhook(url=webhook_url, content="Hello World!")
 response = webhook.execute()
