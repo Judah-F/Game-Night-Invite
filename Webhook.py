@@ -3,6 +3,15 @@ import os
 #from googleapiclient.discovery import build
 from discord_webhook import DiscordWebhook
 
-webhook_url='https://discord.com/api/webhooks/1456666293854929091/WC8VnmE4TzaMzAoizAXV-ok860EdsX2aiKQAkJTK9OoNreVFZe3n_EZSxqjL1jgEoxk_'
+
+# Grab the secret from the environment
+webhook_url = os.environ.get('DISCORD_WEBHOOK')
+
+if not webhook_url:
+    print("Error: DISCORD_WEBHOOK environment variable not found!")
+else:
+    print("Webhook found. Ready to send message.")
+    # Your logic to send the message goes here...
+
 webhook = DiscordWebhook(url=webhook_url, content="Hello World!")
 response = webhook.execute()
