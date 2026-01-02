@@ -10,7 +10,7 @@ jobs:
       - name: Send Test Message
         env:
           # This must match the name of the secret you saved in GitHub Settings
-          DISCORD_URL: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_URL: ${{ secrets.DISCORD_HOOK }}
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
