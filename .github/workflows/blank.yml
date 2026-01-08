@@ -1,18 +1,27 @@
-name: Manual Webhook Test
+name: Python Webhook Automation
 
 on:
-  workflow_dispatch: # This adds a "Run workflow" button in the GitHub UI
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * *' # Optional: Runs every day at 3 PM UTC
 
 jobs:
-  test_discord:
+  run_script:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Test Message
+      - name: Checkout code
+        uses: actions/checkout@v4 # This allows GitHub to "see" your main.py
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run logic
         env:
-          # This must match the name of the secret you saved in GitHub Settings
-          DISCORD_URL: ${{ secrets.DISCORD_HOOK }}
-        run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content": "🚀 GitHub Action Test: Webhook Connection Successful!"}' \
-               $DISCORD_URL
+          # This pulls from your Repository Secrets
+          DISCORD_HOOK: ${{ secrets.DISCORD_HOOK }}
+        run: python main.py
