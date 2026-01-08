@@ -11,7 +11,7 @@ def send_instant_message():
 
     # Data to send
     data = {
-        "content": "🐍 **Python Test:** The bridge is active! This message was sent via Python inside a GitHub Action."
+        "content": "@everyone Hello Everyone! We will be doing a game night on this date. Would love to see you all there!"
     }
 
     # Execute the POST request
