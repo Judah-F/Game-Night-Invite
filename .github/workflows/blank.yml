@@ -1,27 +1,25 @@
-name: Python Webhook Automation
+name: Python Instant Test
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 15 * * *' # Optional: Runs every day at 3 PM UTC
+  workflow_dispatch: # Allows you to trigger it manually
 
 jobs:
-  run_script:
+  python_test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4 # This allows GitHub to "see" your main.py
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # 👈 This is the "magic" step that pulls your code
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
+      - name: Install Requests Library
         run: pip install requests
 
-      - name: Run logic
+      - name: Run Python Script
         env:
-          # This pulls from your Repository Secrets
+          # Ensure DISCORD_HOOK is saved in Settings > Secrets > Actions
           DISCORD_HOOK: ${{ secrets.DISCORD_HOOK }}
         run: python main.py
