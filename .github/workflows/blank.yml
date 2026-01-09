@@ -1,18 +1,25 @@
-name: Manual Webhook Test
+name: Python Instant Test
 
 on:
-  workflow_dispatch: # This adds a "Run workflow" button in the GitHub UI
+  workflow_dispatch: # Allows you to trigger it manually
 
 jobs:
-  test_discord:
+  python_test:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Test Message
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # 👈 This is the "magic" step that pulls your code
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install Requests Library
+        run: pip install requests
+
+      - name: Run Python Script
         env:
-          # This must match the name of the secret you saved in GitHub Settings
-          DISCORD_URL: ${{ secrets.DISCORD_HOOK }}
-        run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content": "🚀 GitHub Action Test: Webhook Connection Successful!"}' \
-               $DISCORD_URL
+          # Ensure DISCORD_HOOK is saved in Settings > Secrets > Actions
+          DISCORD_HOOK: ${{ secrets.DISCORD_HOOK }}
+        run: python main.py
